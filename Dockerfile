@@ -20,7 +20,5 @@ RUN \
 	chown -R steam /opt/steamcmd && \
 	chmod +x /opt/steamcmd/entrypoint.sh /opt/steamcmd/run.sh
 
-USER steam
-
 ENTRYPOINT ["/bin/bash", "/opt/steamcmd/entrypoint.sh"]
 CMD ["/bin/bash", "/opt/steamcmd/run.sh"]
