@@ -17,7 +17,7 @@ ENV \
 COPY files /opt/steamcmd
 RUN \
 	mkdir /opt/steamcmd/cache && \
-	chown -R steam /opt/steamcmd && \
+	chown -R root /opt/steamcmd && \
 	chmod +x /opt/steamcmd/entrypoint.sh /opt/steamcmd/run.sh
 
 ENTRYPOINT ["/bin/bash", "/opt/steamcmd/entrypoint.sh"]
