@@ -1,8 +1,12 @@
 FROM sigboe/steamcmd:latest
 MAINTAINER Jessica Smith <jess@mintopia.net>
 
-RUN /opt/steamcmd/steamcmd.sh +quit
 USER root
+RUN \
+	/opt/steamcmd/steamcmd.sh +quit && \
+    apt-get update && \
+    apt-get install -y wget && \
+    rm -rf /var/lib/apt/lists/*
 EXPOSE \
 	3128/tcp \
 	27037/tcp \
@@ -13,7 +17,8 @@ ENV \
 	STEAM_CACHE_SIZE_GB=1000 \
 	STEAM_USERNAME= \
 	STEAM_PASSWORD= \
-	STEAM_GUARD=
+	STEAM_GUARD= \
+	STEAM_AUTHCODE_URL=
 COPY files /opt/steamcmd
 RUN \
 	mkdir /opt/steamcmd/cache && \

@@ -2,8 +2,7 @@
 
 ## Introduction
 
-This is a docker container for running a Steam Site License Server with content caching. The intention is for this to be used by LAN parties
-and other places where bandwidth is limited, but you want a content cache for Steam.
+This is a docker container for running a Steam Site License Server with content caching. The intention is for this to be used by LAN parties and other places where bandwidth is limited, but you want a content cache for Steam.
 
 This is a better solution than previous proxy-based Steam caches for a few reasons:
 
@@ -15,7 +14,10 @@ This is a better solution than previous proxy-based Steam caches for a few reaso
 ## Pre-requisites
 
 You will need to sign up to Valve's partner program and choose Site Licensing. You can then create a new Site and assign a steam user to it.
-It is reccomended you create a brand new user for this as you will need to disable Steam Guard for this container to work properly.
+
+Adding a user to a Steam Partner forces Steam Guard to be enabled, this is a problem for us, but there is a way round it - we can generate the mobile authenticator tokens. Someone has already done the work to implement this and there is a separate container you can run for an HTTP service that gives out valid tokens.
+
+ - [Steam 2FA Auth Code Generator](https://github.com/mintopia/steamcache-authcode)
 
 ## Usage
 
@@ -28,13 +30,11 @@ docker run --restart=unless-stopped \
     -v /data/cache:/opt/steamcmd/cache \
     -e STEAM_USERNAME=mysteamuser \
     -e STEAM_PASSWORD=hunter2 \
-    -e PGID=1000 \
-    -e PUID=1000 \
+    -e STEAM_AUTHCODE_URL=https://myauthcodeservice.example.com
     mintopia/steamcache-site-license:latest
 ```
 
-In this example, the path `/data/cache` on the host will be mapped to the cache directory in the container. The Steam credentials for the site
-are used as environment variables.
+In this example, the path `/data/cache` on the host will be mapped to the cache directory in the container. The Steam credentials for the site are used as environment variables.
 
 ## Supported Environment Variables
 
@@ -42,14 +42,14 @@ The following variables are supported to allow configuration:
 
  - **STEAM_USERNAME** - The username to log in to the site with
  - **STEAM_PASSWORD** - The password for the Steam user
+ - **STEAM_AUTHCODE_URL** - The URL for an instance of the [Steam 2FA Auth Code Service](https://github.com/mintopia/steamcache-authcode) for the user
  - **STEAM_CACHE_SIZE_GB** - The size of the cache in GB
  - **PGID** - The group ID for the user - see below for details
  - **PUID** - The user ID for the user - see below for details
 
 ## User/Group Identifiers
 
-To prevent any problems reading/writing data to the volume and to follow Valve best practice, it is best to have a single user for Steam. You can specify
-the user ID and group ID for this user as environment variables.
+To prevent any problems reading/writing data to the volume and to follow Valve best practice, it is best to have a single user for Steam. You can specify the user ID and group ID for this user as environment variables.
 
 ## Suggested Hardware
 
