@@ -24,13 +24,14 @@ Adding a user to a Steam Partner forces Steam Guard to be enabled, this is a pro
 You will need to consider network ports, Steam credentials and a storage volume when setting up the container.
 
 ```
-docker run --restart=unless-stopped \
+docker run \
+    --restart=unless-stopped \
     --name steamcache-server \
-    -p 3128:3128/tcp -p 27037/tcp -p 27037/udp
+    -p 3128:3128/tcp -p 27037/tcp -p 27037/udp \
     -v /data/cache:/opt/steamcmd/cache \
     -e STEAM_USERNAME=mysteamuser \
     -e STEAM_PASSWORD=hunter2 \
-    -e STEAM_AUTHCODE_URL=https://myauthcodeservice.example.com
+    -e STEAM_AUTHCODE_URL=https://myauthcodeservice.example.com \
     mintopia/steamcache-site-license:latest
 ```
 
