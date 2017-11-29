@@ -21,13 +21,13 @@ Adding a user to a Steam Partner forces Steam Guard to be enabled, this is a pro
 
 ## Usage
 
-You will need to consider network ports, Steam credentials and a storage volume when setting up the container.
+You will need to consider network, Steam credentials and a storage volume when setting up the container.
 
 ```
 docker run \
     --restart=unless-stopped \
     --name steamcache-server \
-    -p 3128:3128/tcp -p 27037/tcp -p 27037/udp \
+    --network=host \
     -v /data/cache:/opt/steamcmd/cache \
     -e STEAM_USERNAME=mysteamuser \
     -e STEAM_PASSWORD=hunter2 \
@@ -36,6 +36,8 @@ docker run \
 ```
 
 In this example, the path `/data/cache` on the host will be mapped to the cache directory in the container. The Steam credentials for the site are used as environment variables.
+
+The network settings need to be host networking on the container. This is because steam clients discover the Site License Server by listening to UDP broadcasts sent out by the license server. If networking is not host mode then the broadcasts will not be seen by your LAN.
 
 ## Supported Environment Variables
 

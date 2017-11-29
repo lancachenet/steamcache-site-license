@@ -10,7 +10,9 @@ RUN \
 EXPOSE \
 	3128/tcp \
 	27037/tcp \
-	27037/udp
+	27037/udp \
+	27036/tcp \
+	27036/udp
 
 VOLUME /cache
 ENV \
