@@ -28,6 +28,7 @@ docker run \
     --restart=unless-stopped \
     --name steamcache-server \
     --network=host \
+    -d \
     -v /data/cache:/opt/steamcmd/cache \
     -e STEAM_USERNAME=mysteamuser \
     -e STEAM_PASSWORD=hunter2 \
