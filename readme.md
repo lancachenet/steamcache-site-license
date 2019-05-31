@@ -33,7 +33,7 @@ docker run \
     -e STEAM_USERNAME=mysteamuser \
     -e STEAM_PASSWORD=hunter2 \
     -e STEAM_AUTHCODE_URL=https://myauthcodeservice.example.com \
-    steamcache/steamcache-site-license:latest
+    lancachenet/steamcache-site-license:latest
 ```
 
 In this example, the path `/data/cache` on the host will be mapped to the cache directory in the container. The Steam credentials for the site are used as environment variables.
